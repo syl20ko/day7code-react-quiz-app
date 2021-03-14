@@ -6,25 +6,38 @@ const API_URL =
 
 function App() {
   const [questions, setQuestions] = useState([]);
-  const [currentQuestion, setCurrentQuestion] = useState(undefined);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [score, setCurrentScore] = useState(0);
 
   useEffect(() => {
     fetch(API_URL)
       .then((res) => res.json())
       .then((data) => {
         setQuestions(data.results);
-        setCurrentQuestion(data.results[0])
-
       });
   }, []);
 
-  const handleAnswer = () => {
-    /* blabla */
+  const handleAnswer = (answer) => {
+    const newIndex = currentIndex + 1;
+    setCurrentIndex(currentIndex + 1);
+
+    if (answer === questions[currentIndex].correct_answer) {
+      setCurrentScore(score + 1);
+    }
   };
 
   return questions.length > 0 ? (
     <div className="container">
-      <Questionaire data={currentQuestion} handleAnswer={handleAnswer}/>
+      {currentIndex >= questions.length ? (
+        <h1 className="text-3xl text-white font-bold">
+          Your score was {score}
+        </h1>
+      ) : (
+        <Questionaire
+          data={questions[currentIndex]}
+          handleAnswer={handleAnswer}
+        />
+      )}
     </div>
   ) : (
     <h2 className="text-2xl text-white font-bold">Chargement...</h2>
