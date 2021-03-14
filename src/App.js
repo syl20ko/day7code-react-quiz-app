@@ -1,24 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import Questionaire from "./components/Questionaire";
+
+const API_URL =
+  "https://opentdb.com/api.php?amount=10&category=14&difficulty=easy";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestion, setCurrentQuestion] = useState(undefined);
+
+  useEffect(() => {
+    fetch(API_URL)
+      .then((res) => res.json())
+      .then((data) => {
+        setQuestions(data.results);
+        setCurrentQuestion(data.results[0])
+
+      });
+  }, []);
+
+  const handleAnswer = () => {
+    /* blabla */
+  };
+
+  return questions.length > 0 ? (
+    <div className="container">
+      <Questionaire data={currentQuestion} handleAnswer={handleAnswer}/>
     </div>
+  ) : (
+    <h2 className="text-2xl text-white font-bold">Chargement...</h2>
   );
 }
 
