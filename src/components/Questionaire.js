@@ -4,12 +4,8 @@ const Questionaire = ({
   showAnswers,
   handleAnswer,
   handleNextQuestion,
-  data: { question, correct_answer, incorrect_answers },
+  data: { question, correct_answer, answers },
 }) => {
-  const shuffledAnswers = [correct_answer, ...incorrect_answers].sort(
-    () => Math.random() - 0.5
-  );
-
   return (
     <div className="flex flex-col">
       {/* question */}
@@ -18,19 +14,17 @@ const Questionaire = ({
       </div>
       {/* Answers */}
       <div className="grid grid-cols-2 gap-6 mt-4">
-        {shuffledAnswers.map((answer) => {
+        {answers.map((answer, idx) => {
           const bgColor = showAnswers
             ? answer === correct_answer
               ? "bg-green-500"
               : "bg-red-500"
             : "bg-white";
 
-          const textColor = showAnswers
-            ? 
-               "text-white"
-            : "text-purple-800";
+          const textColor = showAnswers ? "text-white" : "text-purple-800";
           return (
             <button
+              key={idx}
               className={`${bgColor} ${textColor} p-4 font-semibold rounded shadow`}
               onClick={() => handleAnswer(answer)}
             >
@@ -39,7 +33,14 @@ const Questionaire = ({
           );
         })}
       </div>
-       {showAnswers && ( <button onClick={handleNextQuestion} className={`ml-auto bg-purple-700 text-white p-4 font-semibold rounded shadow mt-6`}>Question suivante</button>)}
+      {showAnswers && (
+        <button
+          onClick={handleNextQuestion}
+          className={`ml-auto bg-purple-700 text-white p-4 font-semibold rounded shadow mt-6`}
+        >
+          Question suivante
+        </button>
+      )}
     </div>
   );
 };
