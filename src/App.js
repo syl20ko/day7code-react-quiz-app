@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
-import Questionaire from "./components/Questionaire";
+import Quiz from "./components/Quiz";
+import Loading from "./components/Loading";
+import Score from "./components/Score";
 
 const API_URL =
   "https://opentdb.com/api.php?amount=10&category=14&difficulty=easy";
@@ -42,11 +44,9 @@ function App() {
   return questions.length > 0 ? (
     <div className="container">
       {currentIndex >= questions.length ? (
-        <h1 className="text-3xl text-white font-bold">
-          Your score was {score}
-        </h1>
+        <Score score={score} />
       ) : (
-        <Questionaire
+        <Quiz
           data={questions[currentIndex]}
           showAnswers={showAnswers}
           handleNextQuestion={handleNextQuestion}
@@ -55,7 +55,7 @@ function App() {
       )}
     </div>
   ) : (
-    <h2 className="text-2xl text-white font-bold">Chargement...</h2>
+    <Loading />
   );
 }
 
