@@ -16,6 +16,7 @@ const Answers = ({showAnswers, correct_answer, answers, handleAnswer}) => {
             key={idx}
             className={`${bgColor} ${textColor} p-4 font-semibold rounded shadow`}
             onClick={() => handleAnswer(answer)}
+            disabled={showAnswers}
           >
             {answer}
           </button>
